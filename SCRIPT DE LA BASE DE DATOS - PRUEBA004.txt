@@ -1,0 +1,93 @@
+USE prueba004;
+
+drop database prueba004;
+
+INSERT INTO categoria (nombre, estado) VALUES
+#1
+('Computadoras', true),
+('Tabletas', true),
+('Drones y cámaras', true),
+('Audio', true),
+('Celulares', true),
+#6
+('TV y cine en casa', true),
+('Tecnologia portátil', true),
+('Impresoras', false);
+
+INSERT INTO marca (nombre, estado) VALUES
+#1
+('Lenovo', true),
+('Apple', true),
+('Canon', true),
+('LG', true),
+('Miray', true),
+#6
+('Microsoft', true),
+('Samsung', true),
+('Nokia', false),
+('Epson', true),
+('DJI', true),
+#11
+('TP-LINK', true),
+('LOGITECH', true)
+
+
+;
+
+
+
+# https://hiraoka.com.pe/computo-y-tecnologia/computadoras/laptops/laptop-lenovo-ideapad-flex-5-de-14-modelo-82hu0148ar-procesador-amd-ryzen-3-5300u-8gb-ram-disco-solido-de-256gb
+# https://hiraoka.com.pe/apple-peru/iphone/iphone-11/iphone-11-6-1-64gb-4gb-ram-negro
+# https://hiraoka.com.pe/computo-y-tecnologia/fotografia/camaras-digitales/camara-digital-canon-eos-rebel-t7-18-55is-75-300-mal-tarj
+# https://hiraoka.com.pe/televisores/televisores/televisor-lg-4k-uhd-smart-thinq-ai-50-50ur7300psa
+# https://hiraoka.com.pe/televisores/televisores/ultra-hd-4k/televisor-miray-led-4k-uhd-smart-65-mk65-k5000wbt-1
+
+# https://hiraoka.com.pe/computo-y-tecnologia/accesorios-computo/camaras-web/camara-web-microsoft-lifecam-cinema-h5d-00013 
+# https://hiraoka.com.pe/catalog/product/view/id/67268/s/tablet-lenovo-tab-m10-3ra-gen-10-1-wifi-4g-lte-64gb-4gb-ram-gris
+# https://hiraoka.com.pe/celulares/celulares/smartphones/celular-libre-samsung-galaxy-a04s-6-5-64gb-4gb-ram-negro
+# https://hiraoka.com.pe/computo-y-tecnologia/impresoras-y-tintas/impresoras/impresora-multifuncional-epson-l4260-papel-foto-adhesivo-brillante-120g-x-25-hojas-jumbo-papel-foto-brillante-180g-x-10-hojas-a4
+# https://hiraoka.com.pe/computo-y-tecnologia/fotografia/drones/drone-dji-mini-3-fly-more-combo-plus-rc-gl
+
+# https://hiraoka.com.pe/computo-y-tecnologia/smarthome/camaras/camara-de-seguridad-ip-tp-link-tapo-c320ws
+# https://hiraoka.com.pe/audio-y-musica/audio/equipo-de-sonido/torre-de-sonido-samsung-mx-t50-500w
+# https://hiraoka.com.pe/computo-y-tecnologia/relojes/smartwatch/apple-watch-se-gps-44mm-blanco-estrella
+# https://hiraoka.com.pe/celulares/celulares/smartphones/iphone-14-pro-max-6-7-128gb-negro-espacial
+# https://hiraoka.com.pe/gaming/accesorios-gaming/audifonos-gamer/audifono-gamer-logitech-g-g435-negro
+
+#
+#
+#
+#
+#
+
+INSERT INTO producto (codigo, nombre, oferta, precionormal,
+preciooferta, estado, id_categoria, id_marca) VALUES
+#1
+('130439', 'Laptop Lenovo Ideapad Flex 5 de 14"', true, 2199, 1699, true, 1, 1),
+('124353', 'iPhone 11 6.1" 64GB 4GB RAM Negro', true, 3199, 1999, true, 5, 2),
+('126702', 'Cámara Digital Canon EOS REBEL T7', true, 3499, 3299, true, 3, 3),
+('130192', 'Televisor LG 4K UHD Smart ThinQ AI 50"', false, 1699, null, true, 6, 4),
+('129573', 'Televisor Miray LED 4K UHD Smart 65" MK65-K5000WBT', true, 1999, 1499, true, 6, 5),
+#6
+('097705', 'Camara Web Microsoft Lifecam Cinema H5D-00013', false, 279, null, true, 7, 6),
+('130292', 'Tablet Lenovo Tab M10 (3ra Gen) 10.1" WiFi 4G', true, 889, 749, true, 2, 1),
+('129729', 'Celular Libre Samsung Galaxy A04s 6.5" 64GB 4GB RAM Negro', true, 659, 519, true, 5, 7),
+('177698', 'Impresora Multifuncional Epson L4260', true, 1149, 1049, true, 8, 9),
+('129438', 'Drone DJI Mini 3 Fly More Combo Plus (RC) (GL)', false, 4499, null, true, 3, 10),
+#11
+('128386', 'Cámara de Seguridad IP TP-Link Tapo C320WS', true, 289, 279, true, 3, 11),
+('120916', 'Equipo de sonido Samsung Bluetooth 500W MX-T50/PE', true, 1199, 749, true, 4, 7),
+('128818', 'Apple Watch SE (2da Gen) GPS 44mm Blanco Estrella', false, 1699, null, true, 7, 2),
+('128317', 'iPhone 14 Pro Max 6.7" 128GB Negro Espacial', true, 6899, 5599, true, 5, 2),
+('127397', 'Audífono Gamer Logitech G G435 Negro', false, 369, null, true, 7, 12)
+
+;
+
+
+
+SELECT * FROM producto;
+SELECT * FROM marca;
+SELECT * FROM categoria;
+
+SELECT * FROM producto p JOIN categoria c WHERE p.id_categoria = c.id_categoria;
+SELECT * FROM producto p JOIN categoria c WHERE p.id_categoria = c.id_categoria AND c.id_categoria = 2; 

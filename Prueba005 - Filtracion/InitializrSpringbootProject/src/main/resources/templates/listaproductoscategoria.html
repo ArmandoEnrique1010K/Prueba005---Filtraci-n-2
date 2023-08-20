@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+            
+
+        <!-- TITULO DINAMICO POR CATEGORIA -->
+        <h1 th:text="${categoriaunica.nombre}" id="categoriaNombre"></h1>
+        
+        
+        <!-- RUTA PARA MOSTRAR TODOS LOS PRODUCTOS -->
+        <a th:href="@{/productos}">Todos los productos</a>
+        
+        <div th:each="seccion: ${categorias}">          
+            <!-- RUTA PARA MOSTRAR PRODUCTOS POR UNA CATEGORIA -->
+            <!-- <a th:href="@{/productos/{id} (id = ${seccion.id_categoria})}"> -->
+                <a th:href="@{/productos/{nombre}(nombre=${seccion.nombre})}">
+                <span th:text="${seccion.nombre}"></span>
+            </a>
+        </div>
+        
+        <!-- RUTA PARA MOSTRAR LOS PRODUCTOS EN OFERTA -->
+        <a th:href="@{/productos/oferta}">Productos en Oferta</a>
+        <br>
+        <br>
+
+        <!-- LISTA DE MARCAS SIN EL BOTÓN FILTRAR -->
+        
+        <form th:action="@{'/productos/' + categoriaunica.nombre}" method="GET">
+            <div th:each="marca : ${marcas}">
+                <label>
+                    <input type="checkbox" name="marcas" th:value="${marca.id_marca}" onchange="filtrarProductos()">
+                    <span th:text="${marca.nombre}"></span>
+                </label>
+            </div>
+            <br>
+            <!-- <input type="submit" value="Filtrar" onclick="filtrarProductos()"> -->
+        </form>
+
+        <br>
+        <br>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Oferta</th>
+                    <th>Precio normal</th>
+                    <th>Precio de oferta</th>
+                    <th>Estado Producto</th>
+                    <th>Categoria</th>
+                    <th>Estado Categoria</th>
+                    <th>Marca</th>
+                    <th>Estado Marca</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="registro: ${productos}">
+                    <td th:text="${registro.id_producto}"></td>
+                    <td th:text="${registro.nombre}"></td>
+                    <td th:text="${registro.oferta}"></td>
+                    <td th:text="${registro.precionormal}"></td>
+                    <td th:text="${registro.preciooferta}"></td>
+                    <td th:text="${registro.estado}"></td>
+                    <!-- OBTENER LOS VALORES "NOMBRE" Y "ESTADO" DE CADA UNA DE LAS TABLAS A LA QUE ESTA RELACIONADA PRODUCTOS -->
+                    <td th:text="${registro.categoriaEntity.nombre}"></td>
+                    <td th:text="${registro.categoriaEntity.estado}"></td>
+                    <td th:text="${registro.marcaEntity.nombre}"></td>
+                    <td th:text="${registro.marcaEntity.estado}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- JS -->
+        <script>
+            function filtrarProductos() {
+                // Obtener todas las casillas de verificación marcadas
+                const checkboxes = document.querySelectorAll('input[name="marcas"]:checked');
+
+                // Obtener los valores seleccionados y crear una lista separada por comas
+                const valoresSeleccionados = Array.from(checkboxes).map(checkbox => checkbox.value).join(',');
+
+                // Obtener el nombre de la categoría seleccionada desde el elemento h1 oculto
+                const categoriaNombre = document.getElementById('categoriaNombre').textContent;
+
+                // Construir la URL con los valores seleccionados y el nombre de la categoría
+                const url = `/productos/${categoriaNombre}?marcas=${valoresSeleccionados}`;
+
+                // Prevenir el envío predeterminado del formulario
+                event.preventDefault();
+
+                // Redirigir al usuario a la URL filtrada
+                window.location.href = url;
+            }
+
+            // Función para marcar los checkboxes basados en los parámetros de la URL
+            function marcarCheckboxesDesdeURL() {
+                const parametrosURL = new URLSearchParams(window.location.search);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+                checkboxes.forEach(checkbox => {
+                    const marcaId = checkbox.value;
+                    const parametro = parametrosURL.get('marcas');
+
+                    if (parametro) {
+                        const marcasSeleccionadas = parametro.split(','); // Dividir los IDs de marca
+                        if (marcasSeleccionadas.includes(marcaId)) {
+                            checkbox.checked = true;
+                        }
+                    }
+                });
+            }
+
+            // Llamar a la función cuando la página se cargue
+            window.addEventListener('load', marcarCheckboxesDesdeURL);
+        </script>
+    </body>
+</html>
